@@ -2,12 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/socket.h>
+#include <sys/time.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <errno.h>
 #include <time.h>
 #include <string.h>
+#include <unistd.h>
 
 #define PORT (123)
 #define NTP_IP ("192.168.60.129")
