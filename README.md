@@ -18,7 +18,7 @@ Remote NTP time
 
 Loacl receive time(T4): 2018-05-25 05:52:32.846380
 
-Offset time form NTP-server to local (T4-T1)-(T2-T3): = -3587us
+Offset time form NTP-server to local ((T2-T1)+(T3-T4))/2: = -3587us
 Synced time = 2018-05-25 05:52:32.842793
 
 recvfrom() = 48. Data is [OK]
