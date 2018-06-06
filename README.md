@@ -1,4 +1,4 @@
-# ntpClientTest
+# NtpClientTest
 
 ./ntp_test_client [ntp server ip]</br>
 Default ip is "182.92.12.11". It's ntp1.aliyun.com
