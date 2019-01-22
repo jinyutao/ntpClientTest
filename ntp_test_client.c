@@ -47,6 +47,12 @@ void print_bit(char * p,int l)
     struct timeval tv;
     gettimeofday(&tv, NULL);
 
+    if((p[0] & 0xC4) == 0xC4)
+    {
+        printf("NTP srver is NOT standby!\n");
+        return;
+    }
+
     uint32_t Reference = (*((uint32_t*)(p+16)));
     uint32_t Reference_us =(*((uint32_t*)(p+20)));
     uint32_t Originate = (*((uint32_t*)(p+24)));
@@ -57,7 +63,7 @@ void print_bit(char * p,int l)
     uint32_t Transmit_us = (*((uint32_t*)(p+44)));
 
     printf("\nRemote NTP time\n");
-    print_timeinfo(" Reference Timestamp -- ",Reference,Originate_us);
+    print_timeinfo(" Reference Timestamp -- ",Reference,Reference_us);
     print_timeinfo(" Originate Timestamp(T1)",Originate,Originate_us);
     print_timeinfo(" Receive Timestamp  (T2)",Receive,Receive_us);
     print_timeinfo(" Transmit Timestamp (T3)",Transmit,Transmit_us);
@@ -83,7 +89,7 @@ void print_bit(char * p,int l)
     tv.tv_usec %= 1000000;
     ptm = gmtime(&tv.tv_sec);
     strftime(tmp,sizeof(tmp),"%F %T",ptm);
-    printf("Offset time form NTP-server to local ((T2-T1)+(T3-T4))/2: = %ldus\n", offset_time_us);
+    printf("Offset time form NTP-server to local (T4-T1)-(T2-T3): = %ldus\n", offset_time_us);
     printf("Synced time = %s.%06ld\n\n", tmp, tv.tv_usec);
 }
 
