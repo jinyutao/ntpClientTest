@@ -89,8 +89,9 @@ void print_bit(char * p,int l)
     tv.tv_usec %= 1000000;
     ptm = gmtime(&tv.tv_sec);
     strftime(tmp,sizeof(tmp),"%F %T",ptm);
-    printf("Offset time form NTP-server to local (T4-T1)-(T2-T3): = %ldus\n", offset_time_us);
+    printf("Offset time form NTP-server to local ((T2-T1)+(T3-T4))/2: = %ldus\n", offset_time_us);
     printf("Synced time = %s.%06ld\n\n", tmp, tv.tv_usec);
+    printf("The roundtrip delay between NTP-server and local (T4-T1)-(T2-T3): = %ldus\n\n", ((uint64_t)((T4-T1)-(T2-T3))));
 }
 
 int main(int agvc,char* agvr[])
