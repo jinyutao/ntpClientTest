@@ -13,7 +13,7 @@
 
 #define PORT (123)
 #define NTP_IP ("182.92.12.11")  // ntp1.aliyun.com
-
+#define FROM_1900_TO_1970_SECOND (2208988800u)
 #define PADDED_2_US(us) ((us * 1000000.0 / UINT32_MAX) + 0.5)
 
 char* ntp_timesnap_2_str(uint32_t s,uint32_t us)
@@ -39,7 +39,7 @@ uint32_t convert_us_padded(uint64_t us)
 void print_timeinfo(char * msg,uint32_t s,uint32_t us)
 {
     printf("%s: %s %08X-%08X\n",
-        msg, ntp_timesnap_2_str(ntohl(s) - 2208988800u,ntohl(us)),s,us);
+        msg, ntp_timesnap_2_str(ntohl(s) - FROM_1900_TO_1970_SECOND, ntohl(us)),s,us);
 }
 
 void print_bit(char * p,int l)
@@ -68,11 +68,11 @@ void print_bit(char * p,int l)
     print_timeinfo(" Receive Timestamp  (T2)",Receive,Receive_us);
     print_timeinfo(" Transmit Timestamp (T3)",Transmit,Transmit_us);
 
-    Originate = ntohl(Originate) - 2208988800u;
+    Originate = ntohl(Originate) - FROM_1900_TO_1970_SECOND;
     double T1 = Originate * 1000000.0 + PADDED_2_US(ntohl(Originate_us));
-    Receive = ntohl(Receive) - 2208988800u;
+    Receive = ntohl(Receive) - FROM_1900_TO_1970_SECOND;
     double T2 = Receive * 1000000.0 + PADDED_2_US(ntohl(Receive_us));
-    Transmit = ntohl(Transmit) - 2208988800u;
+    Transmit = ntohl(Transmit) - FROM_1900_TO_1970_SECOND;
     double T3 = Transmit * 1000000.0 + PADDED_2_US(ntohl(Transmit_us));
     double T4 = (tv.tv_sec * 1000000.0 + tv.tv_usec);
 
@@ -136,7 +136,7 @@ int main(int agvc,char* agvr[])
 
         struct timeval tv;
         gettimeofday(&tv, NULL);
-        uint32_t s = htonl(tv.tv_sec + 2208988800u);
+        uint32_t s = htonl(tv.tv_sec + FROM_1900_TO_1970_SECOND);
         uint32_t us = convert_us_padded(tv.tv_usec);
         us = htonl(us);
         // Transmit Timestamp
